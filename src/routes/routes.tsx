@@ -22,8 +22,8 @@ const routes: RouteObject[] = [
       {
         path: "*",
         element: <NoPageFound />,
-        loader: () => {
-          console.log("We hit the * route!");
+        loader: ({request}) => {
+          console.log(`We hit the * route on the request of ${request.url}`);
           return null;
         },
       },
