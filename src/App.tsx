@@ -15,6 +15,7 @@ function App() {
       <FirestoreProvider sdk={getFirestore(useFirebaseApp())}>
         <HelmetProvider>
             <Head title="Title" />
+            
             <RouterProvider router={router} />
         </HelmetProvider>
       </FirestoreProvider>
