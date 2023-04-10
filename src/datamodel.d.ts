@@ -3,18 +3,61 @@
  */
 interface FirestoreDataModel {
   Users: {
-    [userId: string]: User;
+    [_id: string]: User;
+  };
+  Episodes: {
+    [_id: string]: Episode;
   };
 }
 
+interface Record {
+  _id: string;
+  _createdDateTime: Date;
+  _updatedDateTime: Date;
+}
+
 /**
- * The User collection contains information about each user. 
+ * The User collection contains information about each user.
  */
-interface User {
+interface User extends Record {
   /** The user's name */
   name: string;
   /** The user's email */
   email: string;
   /** Whether or not the user is marked as an administrator */
   admin: boolean;
+}
+
+/**
+ * An Episode of the podcast
+ */
+interface Episode extends Record {
+/**   @property title The title of the podcast*/
+  title: string;
+  links: SuggestedLink[];
+  filePath: string;
+  published: boolean;
+  description: string;
+  randomTopic: string;
+  randomReview: {name: string, url: string}
+}
+
+
+/**
+ * Links suggested for an Episode
+ */
+interface SuggestedLink extends Record {
+  /** @property url The URL for the topic to be loaded */
+  url: string;
+  /** @property the id of the user that suggested the link  */
+  userId: string;
+  /** @property the username of the user that suggested the link */
+  username: string;
+  /** @property the comments left on the link */
+  comments: Comment[];
+}
+
+interface Comment extends Record {
+  userId: string;
+  text: string;
 }
