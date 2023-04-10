@@ -29,7 +29,6 @@ yarn.lock
 
 # firebase
 .firebaserc
-firebase.json
 firestore.indexes.json
 firestore.rules
 .firebase/*
