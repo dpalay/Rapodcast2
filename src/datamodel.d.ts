@@ -58,6 +58,7 @@ interface SuggestedLink extends Record {
 }
 
 interface Comment extends Record {
+  /** @property The id of the user that made the comment */
   userId: string;
   text: string;
 }
