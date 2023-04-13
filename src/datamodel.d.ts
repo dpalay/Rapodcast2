@@ -26,6 +26,8 @@ interface User extends Record {
   email: string;
   /** Whether or not the user is marked as an administrator */
   admin: boolean;
+  /** The user's avatar */
+  avatar: string
 }
 
 /**
