@@ -5,7 +5,7 @@ import { firebaseApp } from "./util/firebase";
 import "./index.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { router } from "./routes/routes";
-import { RouterProvider} from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import theme from "./theme";
 

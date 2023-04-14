@@ -36,12 +36,14 @@ interface User extends Record {
 interface Episode extends Record {
 /**   @property title The title of the podcast*/
   title: string;
+  number: number
+  id: number;
   links: SuggestedLink[];
   filePath: string;
   published: boolean;
   description: string;
-  randomTopic: string;
-  randomReview: {name: string, url: string}
+  randomTopic?: string;
+  randomReview?: {name: string, url: string}
 }
 
 

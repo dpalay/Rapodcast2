@@ -1,11 +1,8 @@
-import { Routes, Route, createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import type { RouteObject } from "react-router-dom";
 import NoPageFound from "../Components/Router/NoPageFound";
 import App from "../App";
-import {signOut, getAuth} from "firebase/auth"
-import {getApp} from 'firebase/app'
-import { firebaseApp } from "../util/firebase";
-import Episode from "../Components/Episode/Episode";
+import EpisodeList from "../Components/EpisodeList/EpisodeList";
 
 
 
@@ -31,9 +28,7 @@ const routes: RouteObject[] = [
           {
             path: "/Episode",
             element: (
-              <div>
-                find me in src/routes/routes.tsx. I'm the path "/Episode"
-              </div>
+              <EpisodeList />
             ),
             loader: async ({ params }) => {
               console.log(params);
@@ -43,7 +38,7 @@ const routes: RouteObject[] = [
           {
             path: "/Episode/:episodeId",
             element: (
-              <Episode />
+              <EpisodeList />
             ),
             loader: async ({ params }) => {
               console.log(params);
