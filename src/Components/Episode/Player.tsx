@@ -1,6 +1,6 @@
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 import { useState, useEffect, useCallback, useRef } from "react";
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 interface IProps {
   filePath: string;
@@ -9,6 +9,7 @@ interface IProps {
 const Player: React.FunctionComponent<IProps> = (props) => {
   const { filePath } = props;
   const { episodeId } = useParams();
+  const audioRef = useRef<HTMLAudioElement>(null);
   console.log(filePath);
 
   const [audioUrl, setAudioUrl] = useState("");
@@ -23,17 +24,22 @@ const Player: React.FunctionComponent<IProps> = (props) => {
       .catch((error) => {
         console.error(error);
       });
-  }, [filePath, episodeId])
+  }, [filePath, episodeId]);
   useEffect(() => {
-    getEpisode()
+    getEpisode();
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.load();
+      audioRef.current.play();
+    }
   }, [getEpisode]);
 
-  console.log("AudioURL:")
+  console.log("AudioURL:");
   console.log(audioUrl);
   return (
     <>
-      <audio controls >
-        {audioUrl !== "" && <source src={audioUrl} type="audio/mpeg"  />}
+      <audio controls ref={audioRef}>
+        {audioUrl !== "" && <source src={audioUrl} type="audio/mpeg" />}
         No Audio
       </audio>
     </>
