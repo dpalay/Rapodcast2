@@ -2,7 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import EpisodeCard from "../Episode/EpisodeCard";
 import Episode from "../Episode/Episode";
 import { useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { collection,  limit, orderBy, query } from "firebase/firestore";
 import { useFirestore, useFirestoreCollection } from "reactfire";
 import { converter } from "../../util/firebase";
@@ -11,20 +11,19 @@ import { arrayMax } from "../../util/util";
 interface IProps {}
 
 const EpisodeList: React.FunctionComponent<IProps> = (props) => {
-  const { episodeId } = useParams<"episodeId">();
-  const [showFromId, setShowFromId] = useState(0)
   const [lastEpisode, setLastEpisode] = useState(1);
   const firestore = useFirestore();
   const episodeCollectionRef = useRef(
     collection(firestore, "Episodes").withConverter(converter<Episode>())
   );
 
-
   const episodeQuery = query(episodeCollectionRef.current, orderBy('oldId', 'desc'), limit(20))
   const episodeCollection = useFirestoreCollection(
     episodeQuery, {idField: '_id'}
   );
-  useEffect(() => {
+
+  
+  const thing = useCallback(() => {
     if (episodeCollection.data && episodeCollection.data.docs.length > 0) {
       setLastEpisode(
         arrayMax(
@@ -32,7 +31,11 @@ const EpisodeList: React.FunctionComponent<IProps> = (props) => {
         )
       );
     }
-  }, [episodeCollectionRef.current]);
+  }, [episodeCollectionRef.current])
+
+  useEffect(() => {
+    thing()
+  }, [thing]);
 
   return (
     <Flex alignItems={"center"} justifyContent={"center"} flexWrap={"wrap"}>
