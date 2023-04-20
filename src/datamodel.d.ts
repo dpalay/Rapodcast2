@@ -39,7 +39,8 @@ interface Episode extends Record {
   number: number
   id: number;
   links: SuggestedLink[];
-  filePath: string;
+  filePath?: string;
+  mp3FilePath?: string
   published: boolean;
   description: string;
   randomTopic?: string;

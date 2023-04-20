@@ -10,7 +10,7 @@ const Player: React.FunctionComponent<IProps> = (props) => {
   const { filePath } = props;
   const { episodeId } = useParams();
   const audioRef = useRef<HTMLAudioElement>(null);
-  console.log(filePath);
+  console.log(filePath, episodeId);
 
   const [audioUrl, setAudioUrl] = useState("");
 

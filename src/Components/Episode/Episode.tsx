@@ -5,15 +5,16 @@ import { useParams } from "react-router-dom";
 import { useFirestore, useFirestoreDocData } from "reactfire";
 import { converter } from "../../util/firebase";
 import Player from "./Player";
+import { useState, useEffect } from "react";
 
 interface IProps {
   lastEpisode: string;
+  episodeId: string;
 }
 
-const Episode: React.FunctionComponent<IProps> = (props) => {
+const Episode: React.FunctionComponent<IProps> = ({lastEpisode, episodeId}) => {
   const SERVICE_NAME = import.meta.env.VITE_SERVICE_NAME;
-  const { episodeId } = useParams<"episodeId">();
-  const { lastEpisode } = props;
+  const [filePath, setFilePath] = useState<string | null>(null)
   const firestore = useFirestore();
   const episodeToShow = episodeId ?? lastEpisode;
 
@@ -22,7 +23,12 @@ const Episode: React.FunctionComponent<IProps> = (props) => {
   );
   const episodeDoc = useFirestoreDocData(episodeRef);
 
-  const filePath = episodeDoc.data?.filePath || episodeDoc.data?.mp3FilePath
+  useEffect(() => {
+    
+    setFilePath(episodeDoc.data?.filePath || episodeDoc.data?.mp3FilePath || "" )
+    },[episodeId, episodeDoc.status])
+
+
 
   return (
     <>
