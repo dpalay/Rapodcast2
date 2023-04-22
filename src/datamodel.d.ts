@@ -60,6 +60,8 @@ interface SuggestedLink extends Record {
   username: string;
   /** @property the comments left on the link */
   comments: Comment[];
+  /** @property the title of the link */
+  title: string
 }
 
 interface Comment extends Record {

@@ -1,11 +1,10 @@
-import { Box, Flex, Stack, Text } from "@chakra-ui/react";
-import { doc } from "firebase/firestore";
+import { Box, Flex, Link, List, ListItem, Stack, Text } from "@chakra-ui/react";
+import { setDoc, updateDoc, doc } from "firebase/firestore";
 import { Helmet } from "react-helmet-async";
-import { useParams } from "react-router-dom";
 import { useFirestore, useFirestoreDocData } from "reactfire";
 import { converter } from "../../util/firebase";
 import Player from "./Player";
-import { useState, useEffect } from "react";
+
 
 interface IProps {
   episode: Episode;
@@ -26,7 +25,7 @@ const Episode: React.FunctionComponent<IProps> = ({ episode }) => {
           <h1>Episode {episode.id}</h1>
             <Box>
               <Flex alignContent={"center"} justifyContent={"center"}>
-                {(episode.filePath || episode.mp3FilePath) && <Player filePath={episode.filePath || episode.mp3FilePath } />}
+                {(episode.filePath || episode.mp3FilePath) && <Player filePath={episode.filePath || episode.mp3FilePath || "ERROR"} />}
               </Flex>
             </Box>
           <p>{episode.description}</p>
@@ -34,10 +33,16 @@ const Episode: React.FunctionComponent<IProps> = ({ episode }) => {
           {episode.randomTopic && <Text>Random Topic: {episode.randomTopic}</Text>}
         </Box>
         <Box w={["100%", "100%", "50%"]}>
-          <h1>Links</h1>
-          <p>Link to somewhere</p>
-          <p>Link to somewhere</p>
-          <p>Link to somewhere</p>
+          <Text variant={"h1"}>Links!</Text>
+          {episode.links.length > 0 && <List>
+            {episode.links.map((link, id )=> {
+              return (
+                <ListItem key={`${episode.id}_link_${id}`}>
+                  <Link href={link.url}>{link.title}</Link>
+                </ListItem>
+              )
+            })}
+            </List>}
         </Box>
       </Stack>
     </>
