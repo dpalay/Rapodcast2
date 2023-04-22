@@ -47,7 +47,7 @@ const EpisodeList: React.FunctionComponent<IProps> = () => {
       <Box w={"100%"}>
         <Flex alignContent={"center"}>
           <Box w={"100%"}>
-             {episodeId && <Episode lastEpisode={lastEpisode.toString()} episodeId={episodeId}/>}
+             {episodeId && episodeCollection.data && <Episode lastEpisode={lastEpisode.toString()} episode={episodeCollection.data.docs.filter(episode => episode.data().id.toString() ===episodeId)[0].data()}/>}
           </Box>
         </Flex>
       </Box>

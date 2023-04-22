@@ -9,40 +9,50 @@ interface IProps {
 const Player: React.FunctionComponent<IProps> = (props) => {
   const { filePath } = props;
   const { episodeId } = useParams();
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioReactRef = useRef<HTMLAudioElement>(null);
   console.log(filePath, episodeId);
 
   const [audioUrl, setAudioUrl] = useState("");
+  const [error, setError] = useState("")
 
-  const getEpisode = useCallback(() => {
+  const getEpisode = useCallback(async () => {
     const storage = getStorage();
     const audioRef = ref(storage, filePath);
     getDownloadURL(audioRef)
       .then((url) => {
         setAudioUrl(url);
-      })
+        setError("")
+      }).then(() => {
+        if (audioReactRef.current) {
+          audioReactRef.current.pause();
+          audioReactRef.current.load();
+          audioReactRef.current.play();
+        }}
+      )
       .catch((error) => {
+        setError("Could not load file")
         console.error(error);
       });
   }, [filePath, episodeId]);
   useEffect(() => {
     getEpisode();
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.load();
-      audioRef.current.play();
-    }
-  }, [getEpisode]);
+    
+  }, [filePath]);
 
-  console.log("AudioURL:");
-  console.log(audioUrl);
+  if (error !== "")  {
+    return (
+      <div>
+        No audio file found!
+      </div>
+    )
+  }
   return (
-    <>
-      <audio controls ref={audioRef}>
+    
+      <audio controls ref={audioReactRef}>
         {audioUrl !== "" && <source src={audioUrl} type="audio/mpeg" />}
-        No Audio
+        Your browser doesn't support audio, but there'd be an audio player here.
       </audio>
-    </>
+    
   );
 };
 
